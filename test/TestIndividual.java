@@ -1,6 +1,7 @@
 
 import ai_problem_komiwojazera.Chromosome;
 import ai_problem_komiwojazera.Individual;
+import ai_problem_komiwojazera.ParametersInvalidOrTooLittleException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -94,8 +95,8 @@ public class TestIndividual {
         }
     }
 
-    @Test(expected = Exception.class)
-    public void testMutation() {
+    @Test
+    public void testMutation() throws ParametersInvalidOrTooLittleException {
         int[][] testDistances = {{1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}};
         Individual testIndividual = new Individual();
         testIndividual.creatNextChromosom(testDistances);
@@ -110,16 +111,42 @@ public class TestIndividual {
         testIndividual.mutation(whichPlace, newPlace);
         assertEquals("Błąd w mutacji pierwszej wartości", newPlace, testIndividual.getChromosome().getPlace(whichPlace));
 
-        whichPlace = 5;
-        newPlace = 0;
-        testIndividual.mutation(whichPlace, newPlace);
-        fail("Should have thrown an exception");
-        
-        whichPlace = 2;
-        newPlace = -1;
-        testIndividual.mutation(whichPlace, newPlace);
-        fail("Should have thrown an exception");
-        
+        for (int i = 0; i < testIndividual.getChromosome().getListPlaces().size(); i++) {
 
+            int temp = testIndividual.getChromosome().getPlace(i);
+            for (int j = 0; j < testIndividual.getChromosome().getListPlaces().size(); j++) {
+                if (j != i) {
+                    if (testIndividual.getChromosome().getPlace(j) == temp) {
+                        fail("Objekt, po mutacji, wystąpił więcej niż jeden raz w chromosomie: " + j);
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Test(expected = Exception.class)
+    public void testMutationException1() throws ParametersInvalidOrTooLittleException {
+
+        int[][] testDistances = {{1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}};
+        Individual testIndividual = new Individual();
+        testIndividual.creatNextChromosom(testDistances);
+
+        int whichPlace = 5;
+        int newPlace = 0;
+        testIndividual.mutation(whichPlace, newPlace);
+        fail("Should have thrown an exception");
+    }
+
+    @Test(expected = Exception.class)
+    public void testMutationException2() throws ParametersInvalidOrTooLittleException {
+
+        int[][] testDistances = {{1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}, {1, 2, 3, 4}};
+        Individual testIndividual = new Individual();
+        testIndividual.creatNextChromosom(testDistances);
+        int whichPlace = 2;
+        int newPlace = -1;
+        testIndividual.mutation(whichPlace, newPlace);
+        fail("Should have thrown an exception");
     }
 }
