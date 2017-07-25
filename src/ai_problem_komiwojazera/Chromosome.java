@@ -5,22 +5,27 @@
  */
 package ai_problem_komiwojazera;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Sebastian Kikas
  */
-public class Chromosom {
+public class Chromosome {
 
     private List<Integer> places;
 
-    public Chromosom(int firstPlace) {
-        places.add(firstPlace);
-
+    public Chromosome() {
+        places = new ArrayList();
     }
 
-    public Chromosom(List<Integer> newPlaces) {
+    public Chromosome(int firstPlace) {
+        places = new ArrayList();
+        places.add(firstPlace);
+    }
+
+    public Chromosome(List<Integer> newPlaces) {
         places = newPlaces;
     }
 
@@ -41,7 +46,12 @@ public class Chromosom {
     }
 
     public void changeOldPlace(int newValue, int whichPlace) {
-        places.set(whichPlace, newValue);
+        for (int i = 0; i < places.size(); i++) {
+            if (places.get(i) == newValue) {
+                places.set(i, places.get(whichPlace));
+                places.set(whichPlace, newValue);
+            }
+        }
     }
 
     public Boolean isThisValue(int checkValue) {
@@ -53,29 +63,12 @@ public class Chromosom {
         return false;
     }
 
-    public void mutation(int whichPlace, int newPlace) {
-        int temp = places.get(whichPlace);
-        places.set(whichPlace, newPlace);
+    public boolean compareTo(Chromosome chromosome) {
         for (int i = 0; i < places.size(); i++) {
-            if ((places.get(i) == newPlace) && (i != whichPlace)) {
-                places.set(i, temp);
-                break;
+            if (places.get(i) != chromosome.getPlace(i)) {
+                return false;
             }
         }
-    }
-
-    public void cross(int beginChange, int endChange, List<Integer> newPlaces) {
-        int j = 0;
-        for (int i = beginChange; i <= endChange; i++) {
-            places.set(i, newPlaces.get(j));
-            j++;
-        }
-        for(int i=0;i<places.size();i++){
-            if (i<beginChange || i>endChange){
-            for(int k=0;k<newPlaces.size();k++){
-                    if(places.get(i)==newPlaces.get(k)){
-                        
-                    }
-        }
+        return true;
     }
 }

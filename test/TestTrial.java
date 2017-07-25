@@ -43,16 +43,20 @@ public class TestTrial {
             testChromosomeOne = testTrial.getBestIndividualsList().get(i).getChromosome();
             for (int j = 0; j < sizeList; j++) {
                 if (i != j) {
-                    testChromosomeTwo = testTrial.getBestIndividualsList().get(j).getChromosome();
-                    int k = 0;
-                    while (testChromosomeOne.getPlace(k) == testChromosomeTwo.getPlace(k)) {
-                        k++;
-                        if (k == sizeChromosome) {
-                            fail("Te chrommosomy są takie same " + i + " " + testChromosomeOne.getListPlaces().toString()
-                                    + " " + j + " " + testChromosomeTwo.getListPlaces().toString());
+                    if (testTrial.getBestIndividualsList().get(i).equals(testTrial.getBestIndividualsList().get(j))) {
+                        fail("Te chrommosomy są takie same -1 " + i + " " + testChromosomeOne.getListPlaces().toString());
 
-                        }
                     }
+//                    testChromosomeTwo = testTrial.getBestIndividualsList().get(j).getChromosome();
+//                    int k = 0;
+//                    while (testChromosomeOne.getPlace(k) == testChromosomeTwo.getPlace(k)) {
+//                        k++;
+//                        if (k == sizeChromosome) {
+//                            fail("Te chrommosomy są takie same-2 " + i + " " + testChromosomeOne.getListPlaces().toString()
+//                                    + " " + j + " " + testChromosomeTwo.getListPlaces().toString());
+//
+//                        }
+//                    }
                 }
 
             }
@@ -86,11 +90,7 @@ public class TestTrial {
         int howManyPlaces = 6;
         testTrial.makeMutation(testIndividual, howManyPlaces);
 
-        int k = 0;
         for (int i = 0; i < testTrial.getBestIndividualsList().get(0).getChromosome().getListPlaces().size(); i++) {
-            if (testChromosome.getPlace(i) == testIndividual.getChromosome().getPlace(i)) {
-                k++;
-            }
             for (int j = 0; j < testTrial.getBestIndividualsList().get(0).getChromosome().getListPlaces().size(); j++) {
                 if (i != j) {
                     if (testTrial.getBestIndividualsList().get(0).getChromosome().getPlace(i)
@@ -101,10 +101,13 @@ public class TestTrial {
                 }
             }
         }
-        if (k == testTrial.getBestIndividualsList().get(0).getChromosome().getListPlaces().size()) {
-            fail("Te chrommosomy są takie same - makeMutation " + testChromosome.getListPlaces().toString() + " " + testIndividual.getChromosome().getListPlaces().toString());
+        for (int i = 0; i < testTrial.getBestIndividualsList().size(); i++) {
+            for (int j = 0; j < testTrial.getBestIndividualsList().size(); j++) {
+                if (testTrial.getBestIndividualsList().get(i).equals(testTrial.getBestIndividualsList().get(j))) {
+                    fail("Te chrommosomy są takie same - makeMutation " + testChromosome.getListPlaces().toString() + " " + testIndividual.getChromosome().getListPlaces().toString());
+                }
+            }
         }
-
     }
 
     @Test
@@ -118,8 +121,28 @@ public class TestTrial {
         for (int i = 0; i < testTrial.getBestIndividualsList().get(0).getChromosome().getListPlaces().size(); i++) {
             testChromosome.setNewPlace(testIndividual.getChromosome().getPlace(i));
         }
-        
-        
+        int howManyPlaces = 6;
+        int whichPath = 5;
+        testTrial.makeCross(testIndividual, whichPath, howManyPlaces);
+
+        for (int i = 0; i < testTrial.getBestIndividualsList().get(0).getChromosome().getListPlaces().size(); i++) {
+            if (testTrial.getBestIndividualsList().get(i).equals(testTrial.getBestIndividualsList().get(0)) && i != 0) {
+                fail("Te chrommosomy są takie same - makeCross -3 " + i);
+            }
+            for (int j = 0; j < testTrial.getBestIndividualsList().get(0).getChromosome().getListPlaces().size(); j++) {
+                if (i != j) {
+                    if (testTrial.getBestIndividualsList().get(0).getChromosome().getPlace(i)
+                            == testTrial.getBestIndividualsList().get(0).getChromosome().getPlace(j)) {
+                        fail("Te miejsca w chromosomie są takie same - makeCross-1 " + j + " " + i);
+
+                    }
+                    if (testTrial.getBestIndividualsList().get(5).getChromosome().getPlace(i)
+                            == testTrial.getBestIndividualsList().get(5).getChromosome().getPlace(j)) {
+                        fail("Te miejsca w chromosomie są takie same - makeCross-2 " + j + " " + i);
+                    }
+                }
+            }
+        }
     }
 
     @Test
