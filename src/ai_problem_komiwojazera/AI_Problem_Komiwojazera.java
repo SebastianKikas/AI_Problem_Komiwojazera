@@ -54,7 +54,7 @@ public class AI_Problem_Komiwojazera {
             Trial trial = new Trial();
             List<Integer> bestResults = new ArrayList();
             List<Double> everageListBest = new ArrayList();
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 1000; i++) {
                 trial.findBeterList(data);
                 bestResults.add(trial.getBestIndividualsList().get(0).getDistanceAll());
                 double temp = 0;
@@ -65,12 +65,12 @@ public class AI_Problem_Komiwojazera {
                 everageListBest.add(temp);
             }
             System.out.println("Najlepsze wyniki   Średnia z listy");
-            for (int i = 0; i < 100; i++) {
-                System.out.print("   " + bestResults.get(i) + "      ");
+            for (int i = 0; i < 1000; i++) {
+                System.out.print("   " + bestResults.get(i) + "            ");
                 if (i > 0 && bestResults.get(i) > bestResults.get(i - 1)) {
                     System.out.println("UWAGA!!!");
                 }
-                System.out.println(everageListBest);
+                System.out.println(everageListBest.get(i));
                 if (i > 0 && everageListBest.get(i) > everageListBest.get(i - 1)) {
                     System.out.println("UWAGA!!!");
                 }
